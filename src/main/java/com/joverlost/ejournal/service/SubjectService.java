@@ -56,4 +56,9 @@ public class SubjectService {
         }
         return  namesOfSubjects;
     }
+
+    public Subject getSubjectByName(String name){
+        Subject subject=subjectRepository.findByName(name).orElseThrow(()->new SubjectNotFoundException("Предмет не найден"));
+        return subject;
+    }
 }

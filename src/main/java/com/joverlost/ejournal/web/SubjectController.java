@@ -73,4 +73,10 @@ public class SubjectController {
         return new ResponseEntity<>(nameSubjectList,HttpStatus.OK);
     }
 
+    @GetMapping("/get/by/{name}")
+    public ResponseEntity<Object> getSubjectByName(@PathVariable("name") String name){
+        Subject subject=subjectService.getSubjectByName(name);
+        SubjectDTO subjectDTO=subjectFacade.subjectToSubjectDTO(subject);
+        return new ResponseEntity<>(subjectDTO,HttpStatus.OK);
+    }
 }

@@ -72,4 +72,26 @@ public class StudentController {
         List<StudentDTO> studentDTOList=studentFacade.studentListToStudentDTOList(studentList);
         return new ResponseEntity<>(studentDTOList,HttpStatus.OK);
     }
+
+    @PostMapping("/add/{studentId}/to/{subjectId}")
+    public ResponseEntity<Object> addStudentToSubject(@PathVariable("studentId") Long studentId,@PathVariable("subjectId") Long subjectId){
+        return new ResponseEntity<>(studentService.addStudentToSubject(studentId,subjectId),HttpStatus.OK);
+    }
+    @PostMapping("/delete/{studentId}/from/{subjectId}")
+    public ResponseEntity<Object> deleteStudentFromSubject(@PathVariable("studentId") Long studentId,@PathVariable("subjectId") Long subjectId){
+        return new ResponseEntity<>(studentService.deleteStudentFromSubject(studentId,subjectId),HttpStatus.OK);
+    }
+
+    @GetMapping("/get/all/from/{subjectId}")
+    public ResponseEntity<Object> getAllStudentsFromSubject(@PathVariable("subjectId") Long subjectId){
+        List<Student> studentList=studentService.getAllStudentsFromSubject(subjectId);
+        List<StudentDTO> studentDTOList=studentFacade.studentListToStudentDTOList(studentList);
+        return new ResponseEntity<>(studentDTOList,HttpStatus.OK);
+    }
+    @GetMapping("/get/all/not/from/{subjectId}")
+    public ResponseEntity<Object> getAllStudentsNotFromSubject(@PathVariable("subjectId") Long subjectId){
+        List<Student> studentList=studentService.getAllStudentsNotFromSubject(subjectId);
+        List<StudentDTO> studentDTOList=studentFacade.studentListToStudentDTOList(studentList);
+        return new ResponseEntity<>(studentDTOList,HttpStatus.OK);
+    }
 }
