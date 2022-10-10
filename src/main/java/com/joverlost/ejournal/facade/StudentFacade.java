@@ -16,8 +16,6 @@ import java.util.List;
 public class StudentFacade {
 
     @Autowired
-    private SubjectRepository subjectRepository;
-    @Autowired
     private EstimationRepository estimationRepository;
 
     public Student studentDtoToStudent(StudentDTO studentDTO){
@@ -26,17 +24,7 @@ public class StudentFacade {
         student.setFirstname(studentDTO.getFirstname());
         student.setLastname(studentDTO.getLastname());
         student.setContact(studentDTO.getContact());
-        if(studentDTO.getSubjects()!=null) {
-            List<Subject> subjectList = new ArrayList<>();
-            for (int i = 0; i < studentDTO.getSubjects().size(); i++) {
-                Long subjectId = studentDTO.getSubjects().get(i);
-                Subject subject = subjectRepository.findById(subjectId).orElse(null);
-                if (subject != null) {
-                    subjectList.add(subject);
-                }
-            }
-            student.setSubjects(subjectList);
-        }
+
         if(studentDTO.getEstimations()!=null) {
             List<Estimation> estimationList = new ArrayList<>();
             for (int i = 0; i < studentDTO.getEstimations().size(); i++) {
@@ -57,13 +45,7 @@ public class StudentFacade {
         studentDTO.setFirstname(student.getFirstname());
         studentDTO.setLastname(student.getLastname());
         studentDTO.setContact(student.getContact());
-        if(student.getSubjects()!=null) {
-            List<Long> subjectList = new ArrayList<>();
-            for (int i = 0; i < student.getSubjects().size(); i++) {
-                subjectList.add(student.getSubjects().get(i).getId());
-            }
-            studentDTO.setSubjects(subjectList);
-        }
+
         if(student.getEstimations()!=null) {
             List<Long> estimationList = new ArrayList<>();
             for (int i = 0; i < student.getEstimations().size(); i++) {
@@ -83,13 +65,7 @@ public class StudentFacade {
             studentDTO.setFirstname(student.getFirstname());
             studentDTO.setLastname(student.getLastname());
             studentDTO.setContact(student.getContact());
-            if(student.getSubjects()!=null) {
-                List<Long> subjectList = new ArrayList<>();
-                for (int k = 0; k < student.getSubjects().size(); k++) {
-                    subjectList.add(student.getSubjects().get(k).getId());
-                }
-                studentDTO.setSubjects(subjectList);
-            }
+
             if(student.getEstimations()!=null) {
                 List<Long> estimationList = new ArrayList<>();
                 for (int k = 0; k < student.getEstimations().size(); k++) {

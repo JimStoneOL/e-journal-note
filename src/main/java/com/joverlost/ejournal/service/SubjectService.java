@@ -1,10 +1,12 @@
 package com.joverlost.ejournal.service;
 
 import com.joverlost.ejournal.dto.SubjectDTO;
+import com.joverlost.ejournal.entity.Estimation;
 import com.joverlost.ejournal.entity.Subject;
 import com.joverlost.ejournal.exception.SubjectNotFoundException;
 import com.joverlost.ejournal.facade.SubjectFacade;
 import com.joverlost.ejournal.payload.response.MessageResponse;
+import com.joverlost.ejournal.repository.EstimationRepository;
 import com.joverlost.ejournal.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,13 @@ public class SubjectService {
 
     private final SubjectRepository subjectRepository;
     private final SubjectFacade subjectFacade;
+    private final EstimationRepository estimationRepository;
 
     @Autowired
-    public SubjectService(SubjectRepository subjectRepository, SubjectFacade subjectFacade) {
+    public SubjectService(SubjectRepository subjectRepository, SubjectFacade subjectFacade, EstimationRepository estimationRepository) {
         this.subjectRepository = subjectRepository;
         this.subjectFacade = subjectFacade;
+        this.estimationRepository = estimationRepository;
     }
 
     public Subject createSubject(SubjectDTO subjectDTO){
@@ -38,7 +42,11 @@ public class SubjectService {
     }
 
     public MessageResponse deleteSubject(Long id){
-        subjectRepository.findById(id).orElseThrow(()->new SubjectNotFoundException("Предмет не найден"));
+        Subject subject=subjectRepository.findById(id).orElseThrow(()->new SubjectNotFoundException("Предмет не найден"));
+        List<Estimation> estimationList=estimationRepository.findAllBySubject(subject);
+        for(int i=0;i<estimationList.size();i++){
+            estimationRepository.deleteById(estimationList.get(i).getId());
+        }
         subjectRepository.deleteById(id);
         return new MessageResponse("Предмет успешно удалён");
     }

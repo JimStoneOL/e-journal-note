@@ -4,6 +4,7 @@ import com.joverlost.ejournal.dto.EstimationDTO;
 import com.joverlost.ejournal.entity.Estimation;
 import com.joverlost.ejournal.facade.EstimationFacade;
 import com.joverlost.ejournal.payload.response.MessageResponse;
+import com.joverlost.ejournal.payload.response.StudentEstimation;
 import com.joverlost.ejournal.service.EstimationService;
 import com.joverlost.ejournal.validations.ResponseErrorValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,4 +66,13 @@ public class EstimationController {
         EstimationDTO response=estimationFacade.estimationToEstimationDTO(estimation);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @GetMapping("/get/by/{id}")
+    public ResponseEntity<Object> getEstimationsByStudent(@PathVariable("id") Long id){
+        StudentEstimation studentEstimation=estimationService.getEstimationsByStudent(id);
+        return new ResponseEntity<>(studentEstimation,HttpStatus.OK);
+    }
 }
+//todo getEstimationByStudent
+//todo for(Subject)
+//todo getEstimationByStudentAndSubject - in repository

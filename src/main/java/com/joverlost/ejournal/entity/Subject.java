@@ -16,6 +16,4 @@ public class Subject {
     private String name;
     @Column(nullable = false)
     private String teacher;
-    @ManyToMany(mappedBy = "subjects")
-    private List<Student> students;
 }
